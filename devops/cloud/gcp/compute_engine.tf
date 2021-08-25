@@ -1,27 +1,73 @@
-// Terraform plugin for creating random ids
-resource "random_id" "instance_id" {
- byte_length = 8
+resource "google_compute_instance" "gcp_vm_101" {
+  project      = var.project_id
+  zone         = var.zone
+  name         = var.vm_name
+  machine_type = "n1-standard-4"
+  # machine_type = "f1-micro"
+
+  allow_stopping_for_update = true
+
+  boot_disk {
+    initialize_params {
+      image = "debian-cloud/debian-9"
+    }
+  }
+
+  network_interface {
+    # A default network is created for all GCP projects
+    network       = "default"
+    access_config {
+    }
+  }
+
+  metadata_startup_script = data.template_cloudinit_config.config.rendered
+
+  metadata = {
+    ssh-keys = "gcp:${file(var.publickeyfile)}"
+  }
+
+  tags = [
+    "http-server",
+  ]
 }
 
-// A single Compute Engine instance
-resource "google_compute_instance" "default" {
- name         = "flask-vm-${random_id.instance_id.hex}"
- machine_type = "f1-micro"
+resource "google_compute_firewall" "http-server" {
+  project = var.project_id
+  name    = "gcpvm101rule"
+  network = "default"
 
- boot_disk {
-   initialize_params {
-     image = "debian-cloud/debian-9"
-   }
- }
+  allow {
+    protocol = "tcp"
+    ports = [
+      "80",
+      "8080",
+      "8000",
+      "5000",
+    ]
+  }
 
-// Make sure flask is installed on all new instances for later steps
- metadata_startup_script = "sudo apt-get update; sudo apt-get install -yq build-essential python-pip rsync; pip install flask"
+  // Allow traffic from everywhere to instances with an http-server tag
+  source_ranges = [
+    "0.0.0.0/0",
+  ]
+  target_tags = [
+    "http-server",
+  ]
+}
 
- network_interface {
-   network = "default"
+# Render a multi-part cloud-init config making use of the part
+# above, and other source files
+data "template_cloudinit_config" "config" {
+  gzip          = false
+  base64_encode = false
 
-   access_config {
-     // Include this section to give the VM an external ip address
-   }
- }
+  part {
+    filename     = "script-rendered.sh"
+    content_type = "text/x-shellscript"
+    content      = templatefile("${path.module}/vmsetup.tpl", {
+      project_id             = var.project_id
+      region                 = var.region
+      zone                   = var.zone
+    })
+  }
 }

@@ -1,5 +1,6 @@
 provider "google" {
-  project     = "elliptical-feat-323514"
-  region      = "us-central1"
-  zone        = "us-central1-a"
+  credentials = var.credsfile
+  project = var.project_id
+  region  = var.region
+  zone    = var.zone
 }

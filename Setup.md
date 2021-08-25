@@ -22,4 +22,4 @@ gcloud init
 
 ### Step 2
 
-Create a service account with credentials file
+Make sure you select the right project.
