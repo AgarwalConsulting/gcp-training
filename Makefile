@@ -6,3 +6,12 @@ tf-apply:
 
 tf-destroy:
 	cd devops/cloud/gcp && terraform destroy
+
+vagrant-up:
+	vagrant up
+
+vagrant-tssh:
+	vagrant ssh -c "cd /vagrant && tmux a -t basevm || tmux new -s basevm"
+
+vagrant-down:
+	vagrant destroy

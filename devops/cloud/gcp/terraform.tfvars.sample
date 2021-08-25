@@ -5,3 +5,12 @@ region = ""
 zone = ""
 
 vm_name = "gcp-vm-101"
+
+users_list = [
+  "algogrit@gmail.com"
+]
+
+# roles_list = [
+#   "cloudfunctions.admin",
+#   "logging.viewAccessor"
+# ]
