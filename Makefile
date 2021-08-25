@@ -15,3 +15,6 @@ vagrant-tssh:
 
 vagrant-down:
 	vagrant destroy
+
+vagrant-halt:
+	vagrant halt
