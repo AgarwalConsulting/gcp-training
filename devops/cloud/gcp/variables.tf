@@ -1,4 +1,3 @@
-variable "credsfile" {}
 variable "publickeyfile" {}
 
 variable "project_id" {}
