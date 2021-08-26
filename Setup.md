@@ -9,6 +9,9 @@ To bring the box up:
 ```bash
 vagrant plugin install vagrant-vbguest
 
+# vagrant box add --name gcp-cli.box <url-to-the-box>.box
+
+## If setting up from scratch
 vagrant box add --insecure ubuntu/focal64
 
 vagrant up
