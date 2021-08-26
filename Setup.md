@@ -7,6 +7,10 @@ We are going to be using the latest tools like `gCloud SDK` & `terraform`, withi
 To bring the box up:
 
 ```bash
+vagrant plugin install vagrant-vbguest
+
+vagrant box add --insecure ubuntu/focal64
+
 vagrant up
 ```
 
