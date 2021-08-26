@@ -13,6 +13,13 @@ resource "google_project_iam_member" "cm-logva" {
   member  = "user:${each.key}"
 }
 
+resource "google_project_iam_member" "cm-monitorv" {
+  project = var.project_id
+  role    = "roles/monitoring.viewer"
+  for_each = toset(var.users_list)
+  member  = "user:${each.key}"
+}
+
 resource "google_project_iam_binding" "cm-cloud-cli" {
   project = var.project_id
   role    = "roles/iam.serviceAccountUser"
