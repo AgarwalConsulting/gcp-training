@@ -1,3 +1,4 @@
+# https://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/google_project_iam
 resource "google_project_iam_member" "cm-cf" {
   project = var.project_id
   role    = "roles/cloudfunctions.admin"
@@ -12,14 +13,10 @@ resource "google_project_iam_member" "cm-logva" {
   member  = "user:${each.key}"
 }
 
-# resource "google_project_iam_member" "cm-cf" {
-#   project = var.project_id
-#   role    = "roles/cloudfunctions.admin"
-#   member  = "user:algogrit@gmail.com"
-# }
+resource "google_project_iam_binding" "cm-cloud-cli" {
+  project = var.project_id
+  role    = "roles/iam.serviceAccountUser"
 
-# resource "google_project_iam_member" "cm-logva" {
-#   project = var.project_id
-#   role    = "roles/logging.viewAccessor"
-#   member  = "user:algogrit@gmail.com"
-# }
+  for_each = toset(var.users_list)
+  members  = ["user:${each.key}"]
+}
