@@ -16,7 +16,7 @@ public class AutoLoginCont {
 	public void starthere(HttpServletResponse response, HttpServletRequest request) {
 		
 		try {
-			request.login("yahya.toraman@boun.edu.tr", "123qwe");
+			request.login("algogrit@gmail.com", "123qwe");
 		} catch (ServletException e) {
 			System.out.println("user already logged in (test autologincontroller)");
 		}
