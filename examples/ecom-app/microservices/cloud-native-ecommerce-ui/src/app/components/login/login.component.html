@@ -1,0 +1,39 @@
+<body>
+<div #wrapper class="wrapper">
+
+    <navbar-component (overlayToggle)="onToggleOverlay($event)"></navbar-component>
+
+    <div class="breadcrumb-area pt-50 pb-100" style="background-image: url('https://www.nortonandtownsend.co.uk/wp-content/uploads/2017/05/Wedding-banners-02.jpg'); background-size:cover; background-repeat: no-repeat;"></div>
+    <!-- login-area start -->
+    <div class="register-area pt-50 pb-100">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12 col-12 col-lg-6 col-xl-6 ml-auto mr-auto">
+                    <div id="login" class="login">
+                        <div class="login-form-container">
+                            <p style="margin-bottom: 30px; color:red; font-weight:bold;">Error Msg</p>
+                            <div class="login-form">
+                                <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+                                    <input type="text" formControlName="username" id="username" placeholder="Username">
+                                    <input type="password" formControlName="password" id="password" placeholder="Password">
+                                    <p id="jsError" style="color:red;"></p>
+                                    <div class="button-box">
+                                        <input style="cursor:pointer;" type="submit" value="Login" class="default-btn">
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- login-area end -->
+
+
+    <footer-component></footer-component>
+
+
+</div>
+
+</body>

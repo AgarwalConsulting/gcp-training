@@ -1,0 +1,163 @@
+<body>
+<div #wrapper class="wrapper">
+
+    <navbar-component (overlayToggle)="onToggleOverlay($event)"></navbar-component>
+
+    <div class="product-details ptb-100 pb-90">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12 col-lg-7 col-12">
+                    <div class="product-details-img-content">
+                        <div class="product-details-tab mr-70">
+                            <div class="product-details-large tab-content">
+                                <!-- LARGE PRODUCT IMAGES -->
+                                <ng-container *ngFor="let imageDto of product.imageDtoList; index as index">
+                                    <!-- There is an if/else condition to make first picture's class active -->
+                                    <div class="tab-pane active show fade"
+                                         *ngIf="index == 0"
+                                         [id]="'pro-details' + index"
+                                         role="tabpanel">
+                                        <div class="easyzoom easyzoom--overlay">
+                                            <a [href]="imageDto.imageUrl">
+                                                <img style="width:600px; height:400px; object-fit: scale-down; background-color: #8a847d;"
+                                                     [src]="imageDto.imageUrl" alt="">
+                                            </a>
+                                        </div>
+                                    </div>
+                                    <div class="tab-pane fade"
+                                         *ngIf="index > 0"
+                                         [id]="'pro-details' + index"
+                                         role="tabpanel">
+                                        <div class="easyzoom easyzoom--overlay">
+                                            <a [href]="imageDto.imageUrl">
+                                                <img style="width:600px; height:400px; object-fit:scale-down; background-color: #8a847d;"
+                                                     [src]="imageDto.imageUrl" alt="">
+                                            </a>
+                                        </div>
+                                    </div>
+                                </ng-container>
+                            </div>
+                            <!-- SMALL PRODUCT IMAGES -->
+                            <div class="product-details-small nav mt-12 main-product-details" role=tablist>
+                                <ng-container *ngFor="let imageDto of product.imageDtoList; index as index">
+                                    <!-- There is an if/else condition to make first picture's class active -->
+                                    <ng-container *ngIf="index == 0">
+                                        <a class="active mr-12" [href]="'#pro-details' + index"
+                                           data-toggle="tab" role="tab" aria-selected="true">
+                                            <img style="width: 141px;height:135px;object-fit:cover;"
+                                                 [src]="imageDto.imageUrl" alt="">
+                                        </a>
+                                    </ng-container>
+                                    <ng-container *ngIf="index > 0">
+                                        <a class="mr-12" [href]="'#pro-details' + index"
+                                           data-toggle="tab" role="tab" aria-selected="true">
+                                            <img style="width: 141px;height:135px;object-fit:cover;"
+                                                 [src]="imageDto.imageUrl" alt="">
+                                        </a>
+                                    </ng-container>
+                                </ng-container>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-12 col-lg-5 col-12">
+                    <div class="product-details-content">
+                        <h3>{{ product.productName }}</h3>
+                        <div class="details-price">
+                            <span>$</span><span>{{ product.currentPrice }}</span>
+                        </div>
+                        <p>Product description is to be implemented.</p>
+                        <ng-template [ngIf]="isOutOfStock == false">
+                            <form>
+                                <div class="quick-view-select">
+                                    <div class="select-option-part">
+                                        <label>Size*</label>
+                                        <select (change)="sizeOnChange(sizeSelect)" #sizeSelect class="select">
+                                            <option *ngFor="let stockDto of product.stockDtoList"
+                                                    [value]="stockDto.stock + '/' + stockDto.sizeId"
+                                                    [text]="stockDto.sizeCode + ' (Maximum of ' + stockDto.stock + ')'">
+                                            </option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </form>
+                        </ng-template>
+                        <div class="quickview-plus-minus">
+                            <ng-template [ngIf]="isLoggedIn">
+                                <ng-template [ngIf]="isOutOfStock == false">
+                                    <div class="select-option-part">
+                                        <select style="width:70px; height:50px;" #select class="select">
+                                            <option *ngFor="let number of quantities">{{number}}</option>
+                                        </select>
+                                    </div>
+                                    <div class="quickview-btn-cart">
+                                        <input type="button" value="ADD TO CART" (click)="onSubmit(select)"
+                                               style="background-color:red; color: white; height:50px; padding-right:30px; padding-left:30px; border-radius:8px;">
+                                    </div>
+                                </ng-template>
+                                <ng-template [ngIf]="isOutOfStock">
+                                    <div class="quickview-btn-cart">
+                                        <a style="background-color:brown; margin-left:-25px; color:white;">out of stock</a>
+                                    </div>
+                                </ng-template>
+                            </ng-template>
+                            <ng-template [ngIf]="isLoggedIn == false">
+                                <ng-template [ngIf]="isOutOfStock == false">
+                                    <div class="select-option-part">
+                                        <select style="width:70px; height:50px;" #select class="select">
+                                            <option *ngFor="let number of quantities">{{number}}</option>
+                                        </select>
+                                    </div>
+                                    <div class="quickview-btn-cart">
+                                        <a href="/login"
+                                           style="background-color: gray; color: white; padding: 16px 38px;"> login
+                                            for shopping </a>
+                                    </div>
+                                </ng-template>
+                                <ng-template [ngIf]="isOutOfStock">
+                                    <div class="quickview-btn-cart">
+                                        <a style="background-color:brown; margin-left:-25px; color:white;">out
+                                            of stock</a>
+                                    </div>
+                                </ng-template>
+                            </ng-template>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="product-collection-area pb-60">
+        <div class="container">
+            <div class="section-title text-center mb-55">
+                <h2>Related products</h2>
+            </div>
+            <div class="row">
+                <div class="col-md-3 col-lg-3 col-sm-4 col-xs-12" *ngFor="let relatedProduct of relatedProducts">
+                    <div class="single-product mb-35">
+                        <div class="product-img">
+                            <a [href]="'product-details/' + relatedProduct.productId"><img
+                                    style="height:302px; object-fit: cover;" [src]="relatedProduct.imageDtoList[0].imageUrl"
+                                    alt=""></a>
+                        </div>
+                        <div class="product-content">
+                            <div class="product-title-price">
+                                <div class="product-title">
+                                    <h4> {{ relatedProduct.productName }} </h4>
+                                </div>
+                                <div class="product-price">
+                                    <span> {{ '$ ' + relatedProduct.currentPrice }} </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer-component></footer-component>
+
+</div>
+
+</body>

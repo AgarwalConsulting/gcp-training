@@ -1,0 +1,41 @@
+<body>
+
+<div #wrapper class="wrapper">
+
+    <navbar-component (overlayToggle)="onToggleOverlay($event)"></navbar-component>
+
+    <div class="breadcrumb-area pt-50 pb-100" style="background-image: url('https://www.nortonandtownsend.co.uk/wp-content/uploads/2017/05/Wedding-banners-02.jpg'); background-size:cover; background-repeat: no-repeat;"></div>
+</div>
+
+<!-- register-area start -->
+<div class="register-area ptb-70">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12 col-12 col-lg-6 col-xl-6 ml-auto mr-auto">
+                <div class="login">
+                    <div class="login-form-container">
+                        <p style="margin-bottom: 30px; color:red; font-weight:bold;">Error Msg</p>
+                        <div class="loginForm">
+                            <form [formGroup]="regForm" (ngSubmit)="onSubmit()">
+                                <input type="text" formControlName="username" id="username" placeholder="Username">
+                                <input type="password" formControlName="password" id="password1" placeholder="Password">
+                                <input type="password" formControlName="passwordConfirmation" id="password2" placeholder="Password Confirmation">
+                                <p id="jsError" style="color:red;"></p>
+                                <div class="button-box">
+                                    <input type="submit" value="Register" class="default-btn">
+                                    <div class="login-toggle-btn">
+                                        <a href="/login">Already Registered?</a>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<footer-component></footer-component>
+
+</body>

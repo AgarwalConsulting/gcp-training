@@ -1,0 +1,177 @@
+<!-- THIS HTML FILE CONSISTS OF THREE PARTS: NAVBAR, NAVBAR-CART, SEARCH -->
+
+<div class="body-overlay"></div>
+
+<!-- START OF PART 1: NAVBAR -->
+<header class="pl-155 pr-155">
+    <div class="header-area header-area-2">
+        <div class="container-fluid p-0">
+            <div class="row no-gutters">
+                <div class="col-lg-3 col-md-6 col-6">
+                    <div class="logo">
+                        <a href="/"><img src="/assets/img/logo/logo.png" alt="" /></a>
+                    </div>
+                </div>
+                <div class="col-lg-6 menu-none-block menu-center">
+                    <div class="main-menu">
+                        <nav>
+                            <ul>
+                                <li><a href="/">Home</a></li>
+                                <li><a href="/shop-grid/sq=&filter=0P100000P11234CS12345">Shop</a>
+                                    <ul class="dropdown">
+                                        <li><a href="/shop-grid/sq=&filter=0P100000P11CS12345">Suits</a></li>
+                                        <li><a href="/shop-grid/sq=&filter=0P100000P12CS12345">Blazers</a></li>
+                                        <li><a href="/shop-grid/sq=&filter=0P100000P13CS12345">Shirts</a></li>
+                                        <li><a href="/shop-grid/sq=&filter=0P100000P14CS12345">Trousers</a></li>
+                                    </ul>
+                                </li>
+                                <ng-template [ngIf]="isLoggedIn == false">
+                                    <li><a href="/register">Register</a></li>
+                                    <li><a href="/login">Login</a></li>
+                                </ng-template>
+                            </ul>
+                        </nav>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6 col-6">
+                    <div class="header-search-cart">
+                        <div class="header-search common-style">
+                            <button (click)="onTriggerSearch(mainSearchActive)" class="sidebar-trigger-search">
+                                <span class="ion-ios-search-strong"></span>
+                            </button>
+                        </div>
+                        <div class="header-cart common-style">
+                            <button (click)="onTriggerSidebar()" class="sidebar-trigger">
+                                <span class="ion-bag"></span>
+                            </button>
+                        </div>
+                        <ng-template [ngIf]="isLoggedIn">
+                            <li class="nav-item dropdown pt-1">
+                                <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink-4" data-toggle="dropdown"
+                                   aria-haspopup="true" aria-expanded="false">
+                                    <img src="http://iconsetc.com/icons-watermarks/flat-circle-white-on-black/bfa/bfa_user/bfa_user_flat-circle-white-on-black_512x512.png"
+                                         class="rounded-circle z-depth-0" height="23"></a>
+                                <div class="dropdown-menu dropdown-menu-right dropdown-info"
+                                     aria-labelledby="navbarDropdownMenuLink-4">
+                                    <a class="dropdown-item" href="/logout">Log out</a>
+                                </div>
+                            </li>
+                        </ng-template>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+<!-- END OF PART 1: NAVBAR -->
+
+<!-- START OF PART 2: NAVBAR-CART -->
+
+
+<!-- START OF PART 2.1: IF LOGGED IN -->
+<ng-template [ngIf]="isLoggedIn">
+
+    <!-- START OF PART 2.1.1: IF THE BASKET IS EMPTY -->
+    <ng-template [ngIf]="isBasketEmpty">
+        <div #sidebarCart class="sidebar-cart onepage-sidebar-area">
+            <div class="wrap-sidebar">
+                <div class="sidebar-cart-all">
+                    <div class="sidebar-cart-icon">
+                        <button (click)="onCloseSidebar()" class="op-sidebar-close"><span class="ion-android-close"></span></button>
+                    </div>
+                    <div class="cart-content">
+                        <h3>Shopping Cart</h3>
+                        <ul>
+                            <p> You don't have any items in your basket. </p>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </ng-template>
+    <!-- END OF PART 2.1.1: IF THE BASKET IS EMPTY -->
+
+    <!-- START OF PART 2.1.2: IF THERE ARE PRODUCTS IN THE BASKET -->
+    <ng-template [ngIf]="isBasketEmpty == false">
+        <div #sidebarCart class="sidebar-cart onepage-sidebar-area">
+            <div class="wrap-sidebar">
+                <div class="sidebar-cart-all">
+                    <div class="sidebar-cart-icon">
+                        <button (click)="onCloseSidebar()" class="op-sidebar-close"><span class="ion-android-close"></span></button>
+                    </div>
+                    <div class="cart-content">
+                        <h3>Shopping Cart</h3>
+                        <ul>
+                            <li class="single-product-cart" *ngFor="let row of basketSummaryRows">
+                                <div class="cart-img">
+                                    <a [href]="'product-details/' + row.productId">
+                                        <img [src]="row.imageUrl" style="width: 80px; height: 80px;" alt=""></a>
+                                </div>
+                                <div class="cart-title">
+                                    <h3> {{ row.productName }} </h3>
+                                    <span> {{ row.quantity }} </span>
+                                    <span>x $</span>
+                                    <span> {{ row.currentPrice }} </span>
+                                </div>
+                            </li>
+                            <li class="single-product-cart">
+                                <div class="cart-total">
+                                    <h4>Total : <span>$</span> <span> {{ basketTotal }} </span></h4>
+                                </div>
+                            </li>
+                            <li class="single-product-cart">
+                                <div class="cart-checkout-btn">
+                                    <a class="btn-hover cart-btn-style" href="/cart">view cart</a>
+                                    <a class="no-mrg btn-hover cart-btn-style" href="/checkout">checkout</a>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </ng-template>
+    <!-- END OF PART 2.1.2: IF THERE ARE PRODUCTS IN THE BASKET -->
+
+</ng-template>
+<!-- END OF PART 2.1: IF LOGGED IN -->
+
+<!-- START OF PART 2.2: IF NOT LOGGED IN -->
+<ng-template [ngIf]="isLoggedIn == false">
+    <div #sidebarCart class="sidebar-cart onepage-sidebar-area">
+        <div class="wrap-sidebar">
+            <div class="sidebar-cart-all">
+                <div class="sidebar-cart-icon">
+                    <button (click)="onCloseSidebar()" class="op-sidebar-close"><span class="ion-android-close"></span></button>
+                </div>
+                <div class="cart-content">
+                    <h3>Shopping Cart</h3>
+                    <br>
+                    <h5>You must login to do basket operations.</h5>
+                </div>
+            </div>
+        </div>
+    </div>
+</ng-template>
+<!-- END OF PART 2.2: IF NOT LOGGED IN -->
+
+<!-- END OF PART 2: NAVBAR-CART -->
+
+<!-- START OF PART 3: SEARCH -->
+<div #mainSearchActive class="main-search-active">
+    <div class="sidebar-search-icon">
+        <button (click)="onCloseSearch(mainSearchActive)" class="search-close"><span class="ion-android-close"></span></button>
+    </div>
+    <div class="sidebar-search-input">
+        <form action="/shop-grid/search-with-query" method="POST">
+            <div class="form-search">
+                <input id="search" name="query" pattern="[A-Za-z_ ]+" class="input-text" value=""
+                       placeholder="Search Entire Store" type="search">
+                <button>
+                    <i class="ion-ios-search-strong"></i>
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+<!-- END OF PART 3: SEARCH -->

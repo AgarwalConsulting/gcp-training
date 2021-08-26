@@ -1,0 +1,284 @@
+<!doctype html>
+<html class="no-js" lang="zxx">
+    <head>
+    	<meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>Men's Designer - Shop</title>
+	
+		<meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <!-- Favicon -->
+        <link rel="shortcut icon" type="image/x-icon" href="/assets/img/favicon.png">
+		
+		<!-- all css here -->
+        <link rel="stylesheet" href="/assets/css/bootstrap.min.css">
+        <link rel="stylesheet" href="/assets/css/magnific-popup.css">
+        <link rel="stylesheet" href="/assets/css/animate.css">
+        <link rel="stylesheet" href="/assets/css/owl.carousel.min.css">
+        <link rel="stylesheet" href="/assets/css/slinky.min.css">
+        <link rel="stylesheet" href="/assets/css/meanmenu.min.css">
+        <link rel="stylesheet" href="/assets/css/jquery-ui.css">
+        <link rel="stylesheet" href="/assets/css/slick.css">
+        <link rel="stylesheet" href="/assets/css/ionicons.min.css">
+        <link rel="stylesheet" href="/assets/css/bundle.css">
+        <link rel="stylesheet" href="/assets/css/style.css">
+        <link rel="stylesheet" href="/assets/css/responsive.css">
+        <script src="/assets/js/vendor/modernizr-2.8.3.min.js"></script>
+    </head>
+    <body>
+   		<div class="wrapper">
+
+        	<div th:replace="common/navbar"></div>
+            
+            <!-- top banner start -->
+            <div class="breadcrumb-area ptb-40 bg-img" style="background-image: url(assets/img/bg/breadcrumb2.jpg);background-color: lightgray;">
+                <div class="container">
+                    <div class="breadcrumb-content" style="margin-left: 4%;">
+                        <h2>shop</h2>
+                        <ul>
+                            <li><a href="#">home</a></li>
+                            <li> shop </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <!-- top banner end -->
+            <div class="shop-page-wrapper hidden-items padding-filter">
+                <!-- if number of products is less than four, filter details does not appear due to height -->
+            	<th:block th:if="${numberOfProductsFound < 4}">
+            	<div class="container-fluid" style="margin-bottom:350px;">
+            	</th:block>
+                <th:block th:if="${numberOfProductsFound >= 4}">
+            	<div class="container-fluid">
+            	</th:block>
+                
+                    <div class="shop-filters-left">
+                        <div class="shop-sidebar">
+                            <form name="filterForm" method="POST">
+                            	<div class="sidebar-widget mb-50">
+                            		<label class="sidebar-title">Search By Keyword</label>
+                            		<input name= "rawSearchString" pattern="[A-Za-z_ ]*" type="text" th:value="${filterObject.rawSearchString}">
+                            	</div>
+                                <div class="sidebar-widget mb-50">
+                            	<div class="select-option-part">
+                                    <label class="sidebar-title">Sort By : </label>
+                                            <select id="select" name="select">
+                                                <th:block th:if="${filterObject.sortBy == 1}">
+                                                    <option selected="selected" value="1">Alphabetical (A-Z)</option>
+                                                </th:block>
+                                                <th:block th:unless="${filterObject.sortBy == 1}">
+                                                    <option value="1">Alphabetical (A-Z)</option>
+                                                </th:block>
+
+                                                <th:block th:if="${filterObject.sortBy == 2}">
+                                                    <option selected="selected" value="2">Alphabetical (Z-A)</option>
+                                                </th:block>
+                                                <th:block th:unless="${filterObject.sortBy == 2}">
+                                                    <option value="2">Alphabetical (Z-A)</option>
+                                                </th:block>
+
+                                                <th:block th:if="${filterObject.sortBy == 3}">
+                                                    <option selected="selected" value="3">Price (Ascending)</option>
+                                                </th:block>
+                                                <th:block th:unless="${filterObject.sortBy == 3}">
+                                                    <option value="3">Price (Ascending)</option>
+                                                </th:block>
+
+                                                <th:block th:if="${filterObject.sortBy == 4}">
+                                                    <option selected="selected" value="4">Price (Descending)</option>
+                                                </th:block>
+                                                <th:block th:unless="${filterObject.sortBy == 4}">
+                                                    <option value="4">Price (Descending)</option>
+                                                </th:block>
+                                            </select>
+                                </div></div>
+                                <div class="sidebar-widget mb-40">
+                                    <h3 class="sidebar-title">Price Range</h3>
+                                    <div class="price_filter">
+                                        <div id="slider-range"></div>
+                                        <div class="price_slider_amount">
+                                            <div class="label-input">
+                                                <label>price : </label>
+                                                <input type="text" id="amount" name="price"/>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="sidebar-widget mb-45">
+                                    <h3 class="sidebar-title">Categories</h3>
+                                    <div class="sidebar-categories">
+                                        <ul>
+                                            <th:block th:if="${#lists.contains(filterObject.categoryList, 1)}">
+                                                <li><input style="height:14px;width:25px;" type="checkbox" id="Suits" name="Suits" checked>Suits</li>
+                                            </th:block>
+                                            <th:block th:unless="${#lists.contains(filterObject.categoryList, 1)}">
+                                                <li><input style="height:14px;width:25px;" type="checkbox" id="Suits" name="Suits">Suits</li>
+                                            </th:block>
+
+                                            <th:block th:if="${#lists.contains(filterObject.categoryList, 2)}">
+                                                <li><input style="height:14px;width:25px;" type="checkbox" id="Blazers" name="Blazers" checked>Blazers</li>
+                                            </th:block>
+                                            <th:block th:unless="${#lists.contains(filterObject.categoryList, 2)}">
+                                                <li><input style="height:14px;width:25px;" type="checkbox" id="Blazers" name="Blazers">Blazers</li>
+                                            </th:block>
+
+                                            <th:block th:if="${#lists.contains(filterObject.categoryList, 3)}">
+                                                <li><input style="height:14px;width:25px;" type="checkbox" id="Shirts" name="Shirts" checked>Shirts</li>
+                                            </th:block>
+                                            <th:block th:unless="${#lists.contains(filterObject.categoryList, 3)}">
+                                                <li><input style="height:14px;width:25px;" type="checkbox" id="Shirts" name="Shirts">Shirts</li>
+                                            </th:block>
+
+                                            <th:block th:if="${#lists.contains(filterObject.categoryList, 4)}">
+                                                <li><input style="height:14px;width:25px;" type="checkbox" id="Trousers" name="Trousers" checked>Trousers</li>
+                                            </th:block>
+                                            <th:block th:unless="${#lists.contains(filterObject.categoryList, 4)}">
+                                                <li><input style="height:14px;width:25px;" type="checkbox" id="Trousers" name="Trousers">Trousers</li>
+                                            </th:block>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div class="sidebar-widget mb-40">
+                                    <h3 class="sidebar-title">Size</h3>
+                                    <div class="product-size">
+                                        <ul>
+                                            <th:block th:if="${#lists.contains(filterObject.sizeList, 1)}">
+                                                <li><input style="height:17px;width:17px;" type="checkbox" id="s-size" name="s-size" checked>S</li>
+                                            </th:block>
+                                            <th:block th:unless="${#lists.contains(filterObject.sizeList, 1)}">
+                                                <li><input style="height:17px;width:17px;" type="checkbox" id="s-size" name="s-size">S</li>
+                                            </th:block>
+
+                                            <th:block th:if="${#lists.contains(filterObject.sizeList, 2)}">
+                                                <li><input style="height:17px;width:17px;" type="checkbox" id="m-size" name="m-size" checked>M</li>
+                                            </th:block>
+                                            <th:block th:unless="${#lists.contains(filterObject.sizeList, 2)}">
+                                                <li><input style="height:17px;width:17px;" type="checkbox" id="m-size" name="m-size">M</li>
+                                            </th:block>
+
+                                            <th:block th:if="${#lists.contains(filterObject.sizeList, 3)}">
+                                                <li><input style="height:17px;width:17px;" type="checkbox" id="l-size" name="l-size" checked>L</li>
+                                            </th:block>
+                                            <th:block th:unless="${#lists.contains(filterObject.sizeList, 3)}">
+                                                <li><input style="height:17px;width:17px;" type="checkbox" id="l-size" name="l-size">L</li>
+                                            </th:block>
+
+                                            <th:block th:if="${#lists.contains(filterObject.sizeList, 4)}">
+                                                <li><input style="height:17px;width:17px;" type="checkbox" id="xl-size" name="xl-size" checked>XL</li>
+                                            </th:block>
+                                            <th:block th:unless="${#lists.contains(filterObject.sizeList, 4)}">
+                                                <li><input style="height:17px;width:17px;" type="checkbox" id="xl-size" name="xl-size">XL</li>
+                                            </th:block>
+
+                                            <th:block th:if="${#lists.contains(filterObject.sizeList, 5)}">
+                                                <li><input style="height:17px;width:17px;" type="checkbox" id="xxl-size" name="xxl-size" checked>XXL</li>
+                                            </th:block>
+                                            <th:block th:unless="${#lists.contains(filterObject.sizeList, 5)}">
+                                                <li><input style="height:17px;width:17px;" type="checkbox" id="xxl-size" name="xxl-size">XXL</li>
+                                            </th:block>
+                                        </ul>
+                                        
+                                    </div>
+                                </div>
+                                <input type="submit" value="Filter">
+                            </form>
+                        </div>
+                    </div>
+                    <div class="shop-filters-right">
+                        <div class="shop-bar-area pb-60">
+                            <div class="shop-bar">
+                                <div class="shop-found-selector">
+                                    <div class="shop-found">
+                                        <p><span th:text="${numberOfProductsFound}"></span> Products Found</p>
+                                    </div>
+                                </div>
+                                <div class="shop-filter-tab">
+                                    <div class="shop-filter">
+                                        <a class="shop-filter-active" href="#">Filters <i class="ion-android-options"></i></a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="shop-product-content tab-content">
+                        	<!-- if result not found --> <th:block th:if="${numberOfProductsFound == 0}"> 
+                        	<h1>Result could not be found based on your filters.</h1> 
+                        	<!-- if result not found --> </th:block>
+                            <div id="grid-5-col1" class="tab-pane fade active show">
+                                <div class="row custom-row">
+                                    <!-- start of the loop -->
+                                    <div class="custom-col-5 custom-col-style" th:each="filteredItem : ${filteredItems}">
+                                        <div class="single-product mb-35">
+                                            <div class="product-img">
+                                                <a th:href="@{ '/product-details/' + ${filteredItem.productId} }">
+                                                <img style="height: 302px; object-fit: cover;" th:src="${filteredItem.imageUrls[0]}" alt=""></a>
+                                            </div>
+                                            <div class="product-content">
+                                                <div class="product-title-price">
+                                                    <div class="product-title">
+                                                        <h4 th:text="${filteredItem.productName}"></h4>
+                                                    </div>
+                                                    <div class="product-price">
+                                                        <span>$</span> <span th:text="${filteredItem.currentPrice}"> </span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- end of the loop -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+        	<div th:replace="common/footer"> </div>
+            
+        </div> 
+		
+    </body>
+    
+    <!-- js start -->
+    <script src="/assets/js/vendor/jquery-1.12.0.min.js"></script>
+    <script src="/assets/js/popper.js"></script>
+    <script src="/assets/js/bootstrap.min.js"></script>
+    <script src="/assets/js/jquery.magnific-popup.min.js"></script>
+    <script src="/assets/js/isotope.pkgd.min.js"></script>
+    <script src="/assets/js/imagesloaded.pkgd.min.js"></script>
+    <script src="/assets/js/jquery.counterup.min.js"></script>
+    <script src="/assets/js/waypoints.min.js"></script>
+    <script src="/assets/js/slinky.min.js"></script>
+    <script src="/assets/js/ajax-mail.js"></script>
+    <script src="/assets/js/owl.carousel.min.js"></script>
+    <script src="/assets/js/plugins.js"></script>
+    <script type="text/javascript">
+        // grab an element
+        var myElement = document.querySelector(".intelligent-header");
+        // construct an instance of Headroom, passing the element
+        var headroom  = new Headroom(myElement);
+        // initialise
+        headroom.init(); 
+    </script>
+    <script src="/assets/js/main.js"></script>
+    <!-- js end -->
+
+    <script th:inline="javascript">
+        var sliderrange = $('#slider-range');
+    var amountprice = $('#amount');
+    var minPrice = /*[[${filterObject.minPrice}]]*/;
+    var maxPrice = /*[[${filterObject.maxPrice}]]*/;
+    $(function() {
+        sliderrange.slider({
+            range: true,
+            min: /*[[${globalMinPrice}]]*/,
+            max: /*[[${globalMaxPrice}]]*/,
+            values: [minPrice, maxPrice],
+            slide: function(event, ui) {
+                amountprice.val("$" + ui.values[0] + " - $" + ui.values[1]);
+            }
+        });
+        amountprice.val("$" + sliderrange.slider("values", 0) +
+            " - $" + sliderrange.slider("values", 1));
+    });
+    </script>
+</html>

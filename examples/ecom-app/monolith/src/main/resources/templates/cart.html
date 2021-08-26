@@ -1,0 +1,214 @@
+<!doctype html>
+<html class="no-js" lang="">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>Neha - Minimalist eCommerce HTML5 Template </title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- Favicon -->
+    <link rel="shortcut icon" type="image/x-icon" href="/assets/img/favicon.png">
+
+    <!-- all css here -->
+    <link rel="stylesheet" href="/assets/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/assets/css/magnific-popup.css">
+    <link rel="stylesheet" href="/assets/css/animate.css">
+    <link rel="stylesheet" href="/assets/css/owl.carousel.min.css">
+    <link rel="stylesheet" href="/assets/css/slinky.min.css">
+    <link rel="stylesheet" href="/assets/css/meanmenu.min.css">
+    <link rel="stylesheet" href="/assets/css/slick.css">
+    <link rel="stylesheet" href="/assets/css/ionicons.min.css">
+    <link rel="stylesheet" href="/assets/css/bundle.css">
+    <link rel="stylesheet" href="/assets/css/style.css">
+    <link rel="stylesheet" href="/assets/css/responsive.css">
+    <script src="/assets/js/vendor/modernizr-2.8.3.min.js"></script>
+</head>
+
+<body>
+    <div class="wrapper">
+
+        
+        <div th:replace="common/navbar"></div>
+        
+        <div class="breadcrumb-area ptb-80"
+            style="background-image: url('https://www.nortonandtownsend.co.uk/wp-content/uploads/2017/05/Wedding-banners-02.jpg'); background-size:cover; background-repeat: no-repeat;">
+        </div>
+        <!-- shopping-cart-area start -->
+        <div class="cart-main-area pt-50 pb-100">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                        <h1 class="cart-heading">Basket Details</h1>
+                        <form action="#">
+                            <div class="table-content table-responsive">
+                                <table>
+                                    <thead>
+                                        <tr>
+                                            <th class="product-price">image</th>
+                                            <th class="product-name">Product</th>
+                                            <th class="product-size">Size</th>
+                                            <th class="product-quantity">Quantity</th>
+                                            <th class="product-price">Price</th>
+                                            <th class="product-subtotal">Total</th>
+                                            <th class="product-name">remove</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr th:each="basketItem, iterStat : ${basketDto.items}">
+                                            <td class="product-thumbnail">
+                                                <a th:href="@{ 'product-details/' + ${basketItem.productId} }"><img
+                                                        th:src="${basketItem.imageUrls[0]}"
+                                                        style="height:80px;width:80px;" alt=""></a>
+                                            </td>
+                                            <td class="product-name" style="font-size:20px;"
+                                                th:text="${basketItem.productName}"></td>
+                                            <td class="product-size"
+                                                th:text="${basketDto.sizeCodes[iterStat.count - 1]}"
+                                                style="font-size:20px;"></td>
+
+                                            <td class="product-quantity">
+                                                <div class="select-option-part" style="margin-bottom: 0px;">
+                                                    <select th:name="${'qty' + iterStat.count}"
+                                                        th:id="${iterStat.count}" class="qtyClass" style="width: 70px;">
+                                                        <th:block th:each=" i : ${#numbers.sequence(1,basketDto.maxQtys[iterStat.count-1])}">
+                                                    		<th:block th:if="${basketDto.basketQtys[iterStat.count - 1] == i}">
+                                                    			<option selected th:value="${i}" th:text="${i}"></option>
+                                                    		</th:block>
+                                                    		<th:block th:if="${basketDto.basketQtys[iterStat.count - 1] != i}">
+                                                    			<option th:value="${i}" th:text="${i}"></option>
+                                                    		</th:block>
+                                                        </th:block>
+                                                    </select>
+                                                </div>
+                                            </td>
+
+
+
+                                            <td class="product-price"><span class="amount">$</span><span
+                                                    th:text="${basketItem.currentPrice}" th:id="${'amount' + iterStat.count}" class="amount"></span></td>
+                                            <td class="product-subtotal" style="font-weight:bold;"><span>$</span><span
+                                                    th:text="${basketItem.currentPrice * basketDto.basketQtys[iterStat.count - 1]}" th:id="${'subtotal' + iterStat.count}"></span></td>
+                                            <td class="product-remove"><a
+                                                    th:href="@{ 'delete-row/' + ${basketDto.sizeIds[iterStat.count - 1]} + '/' + ${basketItem.productId} }"><i
+                                                        class="ion-android-close"></i></a></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-5 ml-auto">
+                                    <div class="cart-page-total">
+                                        <h2>Cart Total</h2>
+                                        <ul>
+                                            <li style="font-weight:normal;">
+                                                Items
+                                                <span id="basketTotal1" th:text="${basketTotal}"></span>
+                                                <span>$</span>
+                                            </li>
+                                            <li style="font-weight:normal;">Shipping Fee<span>Free</span></li>
+                                        </ul>
+                                        <ul>
+                                            <li>Total<span id="basketTotal2" th:text="${basketTotal}"></span><span>$</span></li>
+                                        </ul>
+                                        <a onclick="sendHiddenForm(this.id)" id="update" style="color:white; cursor: pointer; width: 210px; text-align:center;">Update Basket</a>
+                                        <a onclick="sendHiddenForm(this.id)" id="checkout" style="color:white; cursor: pointer; width: 210px; text-align:center; float:right;">Proceed to checkout</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- shopping-cart-area end -->
+        
+        <!-- hidden form for merging variable number of fields into one -->
+		<form id="hiddenForm" method="POST">
+            <input type="hidden" id="quantities" name="quantities">
+            <input type="hidden" id="operation" name="operation">
+		</form>
+
+        <!-- footer start -->
+        <div th:replace="common/footer"> </div>
+        <!-- footer end -->
+
+    </div>
+
+    <!-- js start -->
+    
+    <script src="assets/js/vendor/jquery-1.12.0.min.js"></script>
+        <script src="assets/js/popper.js"></script>
+        <script src="assets/js/bootstrap.min.js"></script>
+        <script src="assets/js/jquery.magnific-popup.min.js"></script>
+        <script src="assets/js/isotope.pkgd.min.js"></script>
+        <script src="assets/js/imagesloaded.pkgd.min.js"></script>
+        <script src="assets/js/jquery.counterup.min.js"></script>
+        <script src="assets/js/waypoints.min.js"></script>
+        <script src="assets/js/slinky.min.js"></script>
+        <script src="assets/js/ajax-mail.js"></script>
+        <script src="assets/js/owl.carousel.min.js"></script>
+        <script src="assets/js/plugins.js"></script>
+        <script type="text/javascript">
+            // grab an element
+            var myElement = document.querySelector(".intelligent-header");
+            // construct an instance of Headroom, passing the element
+            var headroom = new Headroom(myElement);
+            // initialise
+            headroom.init(); 
+        </script>
+        <script src="assets/js/main.js"></script>
+    <!-- js end -->
+
+    
+    <script th:inline="javascript">
+        // OnChange Listener for quantity selects
+        // To recompute cart total / subtotal
+        // Which are the same since dummy shipping fee is free for now)
+        $(document).ready(function () {
+            $(".qtyClass").change(function () {
+
+                // Update subtotal for the item
+                var newQty = $(this).find("option:selected").val();
+
+                var amountId = "amount" + $(this).attr('id');
+                var subtotalId = "subtotal" + $(this).attr('id');
+
+                var singlePrice = document.getElementById(amountId).innerHTML;
+                var exSubTotal = document.getElementById(subtotalId).innerHTML;
+                var newSubTotal = newQty * singlePrice;
+
+                document.getElementById(subtotalId).innerHTML = newSubTotal;
+
+                // Update number of items in the cart total
+
+                // Update cart total
+                var priceDiff = newSubTotal - exSubTotal;
+                var exTotal = parseInt(document.getElementById("basketTotal1").innerHTML);
+                var newTotal = parseInt(exTotal + priceDiff);
+
+                document.getElementById("basketTotal1").innerHTML = newTotal;
+                document.getElementById("basketTotal2").innerHTML = newTotal;
+            });
+        });
+
+        function sendHiddenForm(clickedId) {
+            // Merge all quantity selects into a string with "/" delimiter
+            var basketSize = /*[[${basketSize}]]*/;
+            var fieldValues = []
+            var allFieldValues = "";
+            for (i = 1; i <= basketSize; i++) {
+                allFieldValues += document.getElementById(i).value + "/";
+            }
+            
+            document.getElementById("quantities").value = allFieldValues;
+            document.getElementById("operation").value = clickedId; // either update or checkout
+            
+            document.getElementById("hiddenForm").submit();
+        } 
+    </script>
+
+
+</body>
+
+</html>

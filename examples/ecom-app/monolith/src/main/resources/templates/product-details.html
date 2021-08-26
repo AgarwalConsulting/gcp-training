@@ -1,0 +1,316 @@
+<!doctype html>
+<html class="no-js" lang="">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>Neha - Minimalist eCommerce HTML5 Template</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- Favicon -->
+    <link rel="shortcut icon" type="image/x-icon" href="/assets/img/favicon.png">
+
+
+    <!-- all css here -->
+    <link rel="stylesheet" href="/assets/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/assets/css/magnific-popup.css">
+    <link rel="stylesheet" href="/assets/css/animate.css">
+    <link rel="stylesheet" href="/assets/css/owl.carousel.min.css">
+    <link rel="stylesheet" href="/assets/css/slinky.min.css">
+    <link rel="stylesheet" href="/assets/css/meanmenu.min.css">
+    <link rel="stylesheet" href="/assets/css/easyzoom.css">
+    <link rel="stylesheet" href="/assets/css/slick.css">
+    <link rel="stylesheet" href="/assets/css/ionicons.min.css">
+    <link rel="stylesheet" href="/assets/css/bundle.css">
+    <link rel="stylesheet" href="/assets/css/style.css">
+    <link rel="stylesheet" href="/assets/css/responsive.css">
+    <script src="/assets/js/vendor/modernizr-2.8.3.min.js"></script>
+</head>
+
+<body>
+    <!--[if lt IE 8]>
+        <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+        <![endif]-->
+    <!-- header start -->
+    <div class="wrapper">
+        
+        <th:block th:replace="common/navbar"></th:block>
+
+        <div class="product-details ptb-100 pb-90">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="product-details-btn">
+                            <a href="#"><i class="ion-arrow-left-c"></i></a>
+                            <a class="active" href="#"><i class="ion-arrow-right-c"></i></a>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12 col-lg-7 col-12">
+                        <div class="product-details-img-content">
+                            <div class="product-details-tab mr-70">
+                                <div class="product-details-large tab-content">
+                                    <!-- LARGER PRODUCT IMAGES -->
+                                    <th:block th:each="imageUrl, iterStat : ${product.imageUrls}">
+                                        <!-- There is a if/else condition here to make first picture's class active -->
+                                        <div th:if="${iterStat.count == 1}" class="tab-pane active show fade"
+                                            th:id=" 'pro-details' + ${iterStat.count} " role="tabpanel">
+                                            <div class="easyzoom easyzoom--overlay">
+                                                <a th:href="${imageUrl}">
+                                                    <img style="width:600px; height:400px; object-fit: scale-down; background-color: #8a847d;"
+                                                        th:src="${imageUrl}" alt="">
+                                                </a>
+                                            </div>
+                                        </div>
+                                        <div th:if="${iterStat.count >= 2}" class="tab-pane fade"
+                                            th:id=" 'pro-details' + ${iterStat.count} " role="tabpanel">
+                                            <div class="easyzoom easyzoom--overlay">
+                                                <a th:href="${imageUrl}">
+                                                    <img style="width:600px; height:400px; object-fit:scale-down; background-color: #8a847d;"
+                                                        th:src="${imageUrl}" alt="">
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </th:block>
+                                </div>
+                                <!-- SMALLER PRODUCT IMAGES -->
+                                <div class="product-details-small nav mt-12 main-product-details" role=tablist>
+                                    <th:block th:each="imageUrl, iterStat : ${product.imageUrls}">
+                                        <!-- There is a if/else condition here to make first picture's class active -->
+                                        <th:block th:switch="${iterStat.count}">
+                                            <th:block th:case="1">
+                                                <a class="active mr-12" th:href=" '#pro-details' + ${iterStat.count} "
+                                                    data-toggle="tab" role="tab" aria-selected="true">
+                                                    <img style="width: 141px;height:135px;object-fit:cover;"
+                                                        th:src="${imageUrl}" alt="">
+                                                </a>
+                                            </th:block>
+                                            <th:block th:case="*">
+                                                <a class="mr-12" th:href=" '#pro-details' + ${iterStat.count} "
+                                                    data-toggle="tab" role="tab" aria-selected="true">
+                                                    <img style="width: 141px;height:135px;object-fit:cover;"
+                                                        th:src="${imageUrl}" alt="">
+                                                </a>
+                                            </th:block>
+                                        </th:block>
+                                    </th:block>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-12 col-lg-5 col-12">
+                        <div class="product-details-content">
+                            <h3 th:text="${product.productName}"></h3>
+                            <div class="details-price">
+                                <span>$</span><span th:text="${product.currentPrice}"></span>
+                            </div>
+                            <p th:text="${product.descr}"></p>
+                            <th:block th:if="${!isOutOfStock}">
+                                <form id="theForm" method="POST">
+                                    <div class="quick-view-select">
+                                        <div class="select-option-part">
+                                            <label>Size*</label>
+                                            <select onChange="sizeOnChange()" name="sizeSelect" id="sizeSelect" class="select">
+                                                <option value="PleaseSelect">Please select a size</option>
+                                                <div th:each="stock : ${product.stockInfo}">
+                                                    <option th:value="${stock.currentStock + '///' + stock.sizeId}"
+                                                        th:text="${stock.sizeCode} + ' (Maximum of ' + ${stock.currentStock + ')'}">
+                                                    </option>
+                                                </div>
+                                            </select>
+                                        </div>
+                                    </div>
+                            </th:block>
+                            <!-- If it is a get request, only the third Thymeleaf block will apply -->
+                            <!-- If it is a post request, either first or second block will apply based on success/fail case of product adding -->
+                            <th:block th:if="${productSuccessfullyAdded != null && productSuccessfullyAdded}">
+                                <p id="messageAboveButton" style="font-weight:bold; color:green;">Product successfully added.</p>
+                            </th:block>
+                            <th:block th:if="${productSuccessfullyAdded != null && !productSuccessfullyAdded}">
+                                <p id="messageAboveButton" style="font-weight:bold; color:red;">Product is already on your cart.</p>
+                            </th:block>
+                            <th:block th:if="${productSuccessfullyAdded == null}">
+                                <p id="messageAboveButton" style="font-weight:bold; color:red;"></p>
+                            </th:block>
+                            <div class="quickview-plus-minus">
+                                <th:block th:if="${!isOutOfStock}">
+                                    <!--  select start  -->
+                                    <div class="select-option-part">
+                                        <select name="qtySelect" id="qtySelect" style="width:70px; height:50px;"
+                                            class="select">
+                                            <option> 1 </option>
+                                        </select>
+                                    </div>
+                                    <!--  select end -->
+                                </th:block>
+                                <th:block th:if="${isLoggedIn}">
+                                    <th:block th:if="${!isOutOfStock}">
+                                        <div class="quickview-btn-cart">
+                                            <input type="button" value="ADD TO CART" onclick="checkSizeSelect();"
+                                                style="background-color:red; color: white; height:50px; padding-right:30px; padding-left:30px; border-radius:8px;"></a>
+                                        </div>
+                                        </form>
+                                    </th:block>
+                                    <th:block th:if="${isOutOfStock}">
+                                        <div class="quickview-btn-cart">
+                                            <a style="background-color:brown; margin-left:-25px; color:white;">out
+                                                of stock</a>
+                                        </div>
+                                    </th:block>
+                                </th:block>
+                                <th:block th:if="${!isLoggedIn}">
+                                    <th:block th:if="${!isOutOfStock}">
+                                        <div class="quickview-btn-cart">
+                                            <a href="/login"
+                                                style="background-color: gray; color: white; padding: 16px 38px;"> login
+                                                for shopping </a>
+                                        </div>
+                                    </th:block>
+                                    <th:block th:if="${isOutOfStock}">
+                                        <div class="quickview-btn-cart">
+                                            <a style="background-color:brown; margin-left:-25px; color:white;">out
+                                                of stock</a>
+                                        </div>
+                                    </th:block>
+                                </th:block>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="product-collection-area pb-60">
+            <div class="container">
+                <div class="section-title text-center mb-55">
+                    <h2>Related products</h2>
+                </div>
+                <div class="row">
+                    <div th:each="relatedProduct : ${relatedProducts}" class="col-md-3 col-lg-3 col-sm-4 col-xs-12">
+                        <div class="single-product mb-35">
+                            <div class="product-img">
+                                <a th:href="@{ '/product-details/' + ${relatedProduct.productId} }"><img
+                                        style="height:302px; object-fit: cover;" th:src="${relatedProduct.imageUrls[0]}"
+                                        alt=""></a>
+                            </div>
+                            <div class="product-content">
+                                <div class="product-title-price">
+                                    <div class="product-title">
+                                        <h4 th:text="${relatedProduct.productName}"></h4>
+                                    </div>
+                                    <div class="product-price">
+                                        <span>$</span><span th:text="${relatedProduct.currentPrice}"></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <footer class="footer-area gray-bg pt-100 pb-95">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-3 col-md-5 col-12">
+                        <div class="footer-widget">
+                            <div class="footer-widget-l-content">
+                                <h4>20 Years Experience</h4>
+                                <ul>
+                                    <li><a href="#"><i class="ion-social-twitter"></i></a></li>
+                                    <li><a href="#"><i class="ion-social-tumblr"></i></a></li>
+                                    <li><a href="#"><i class="ion-social-facebook"></i></a></li>
+                                    <li><a href="#"><i class="ion-social-instagram-outline"></i></a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-6 col-md-7 col-12">
+                        <div class="footer-widget">
+                            <div class="footer-widget-m-content text-center">
+                                <div class="footer-logo">
+                                    <a href="#"><img src="/assets/img/logo/logo.png" alt=""></a>
+                                </div>
+                                <div class="footer-nav">
+                                    <nav>
+                                        <ul>
+                                            <li><a href="index.html">home</a></li>
+                                            <li><a href="about-us.html">about us</a></li>
+                                            <li><a href="shop-grid-view-sidebar.html">shop </a></li>
+                                            <li><a href="blog-left-sidebar.html"> blog </a></li>
+                                            <li><a href="#">pages </a></li>
+                                        </ul>
+                                    </nav>
+                                </div>
+                                <p>Copyright <i class="fa fa-copyright"></i> 2018 <a href="https://freethemescloud.com/"
+                                        target="_blank">Free Themes Cloud.</a> All rights reserved. </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-12 col-12">
+                        <div class="footer-widget f-right">
+                            <div class="footer-widget-r-content">
+                                <ul>
+                                    <li><span>Phone :</span> +00 123 54 0056</li>
+                                    <li><span>Email : </span> <a href="#">neha@gmail.com</a></li>
+                                    <li><span>Address :</span> Dhaka Bangladesh</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+
+
+    <!-- all js here -->
+    <script>
+        // Update select element of quantity by looking at the selected size
+        function sizeOnChange() {
+        	var val = document.getElementById("sizeSelect").value.split("///")[0];
+            
+            var optionString = "";
+            for (i = 1; i <= val; i++) {
+                optionString += "<option>" + i + "</option>";
+            }
+            document.getElementById("qtySelect").innerHTML = optionString;
+        }
+    
+        // custom implementation of submit button
+        // in order to enable error/success messages
+        function checkSizeSelect() {
+            var sel = document.getElementById("sizeSelect");
+            if (sel.value == "PleaseSelect") {
+                document.getElementById('messageAboveButton').innerHTML = "Error! Please select a size.";
+                document.getElementById('messageAboveButton').style.color = "red";
+            } else {
+                document.getElementById("theForm").submit();
+            }
+        }
+    </script>
+
+    <script src="/assets/js/vendor/jquery-1.12.0.min.js"></script>
+    <script src="/assets/js/popper.js"></script>
+    <script src="/assets/js/bootstrap.min.js"></script>
+    <script src="/assets/js/jquery.magnific-popup.min.js"></script>
+    <script src="/assets/js/isotope.pkgd.min.js"></script>
+    <script src="/assets/js/imagesloaded.pkgd.min.js"></script>
+    <script src="/assets/js/jquery.counterup.min.js"></script>
+    <script src="/assets/js/waypoints.min.js"></script>
+    <script src="/assets/js/slinky.min.js"></script>
+    <script src="/assets/js/ajax-mail.js"></script>
+    <script src="/assets/js/owl.carousel.min.js"></script>
+    <script src="/assets/js/plugins.js"></script>
+    <script type="text/javascript">
+        // grab an element
+        var myElement = document.querySelector(".intelligent-header");
+        // construct an instance of Headroom, passing the element
+        var headroom = new Headroom(myElement);
+        // initialise
+        headroom.init(); 
+    </script>
+    <script src="/assets/js/main.js"></script>
+</body>
+
+</html>

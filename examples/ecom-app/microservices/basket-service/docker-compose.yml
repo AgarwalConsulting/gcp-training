@@ -1,0 +1,23 @@
+version: '3.1'
+services:
+  app:
+    container_name: basket-spring-app
+    build: .
+    ports:
+      - "8085:8085"
+    depends_on:
+      - basket-db
+    environment:
+      SERVER_PORT: 8085
+      SPRING_DATASOURCE_URL: jdbc:postgresql://basket-db:5432/basket-database
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: postgres
+  basket-db:
+    image: postgres
+    container_name: basket-psql-db
+    ports:
+      - "5436:5432"
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=basket-database

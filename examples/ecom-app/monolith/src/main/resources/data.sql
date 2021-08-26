@@ -1,0 +1,1 @@
+INSERT INTO Category VALUES (1, "Suits"), (2, "Blazers"), (3, "Shirts"), (4, "Trousers")

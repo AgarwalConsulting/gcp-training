@@ -1,0 +1,37 @@
+version: '3.1'
+services:
+  app:
+    container_name: checkout-spring-app
+    build: .
+    ports:
+      - "8086:8086"
+    depends_on:
+      - postgres
+    environment:
+      SERVER_PORT: 8086
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/sales-database
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: postgres
+  postgres:
+    image: postgres
+    container_name: checkout-psql-db
+    ports:
+      - "5438:5432"
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=sales-database
+  zookeeper:
+    image: wurstmeister/zookeeper
+    container_name: checkout-zookeeper
+    ports:
+      - "2181:2181"
+  kafka:
+    image: wurstmeister/kafka
+    container_name: checkout-kafka
+    ports:
+      - "9092:9092"
+    environment:
+      KAFKA_ADVERTISED_HOST_NAME: 127.0.0.1
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+      KAFKA_CREATE_TOPICS: "checkout-topic:1:3"

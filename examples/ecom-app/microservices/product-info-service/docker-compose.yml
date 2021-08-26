@@ -1,0 +1,29 @@
+version: '3.1'
+services:
+  app:
+    container_name: product-spring-app
+    build: .
+    ports:
+      - "8081:8081"
+    depends_on:
+      - product-db
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://product-db:5432/product-database
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: postgres
+  product-db:
+    image: postgres
+    container_name: product-psql-db
+    ports:
+      - "5437:5432"
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=product-database
+  redis:
+    image: redis
+    hostname: redis
+    container_name: product-redis-db
+    ports:
+      - "6379:6379"
+
