@@ -1,0 +1,3 @@
+[submodule "examples/rvstore"]
+	path = examples/rvstore
+	url = git@github.com:AgarwalConsulting/rvstore.git
