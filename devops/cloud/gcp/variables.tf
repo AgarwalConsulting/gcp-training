@@ -10,8 +10,3 @@ variable "users_list" {
   type    = list(string)
   default = ["algogrit@gmail.com"]
 }
-
-# variable "roles_list" {
-#   type    = list(string)
-#   default = ["logging.viewAccessor"]
-# }
