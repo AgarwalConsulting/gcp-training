@@ -1,3 +1,6 @@
 [submodule "examples/rvstore"]
 	path = examples/rvstore
 	url = git@github.com:AgarwalConsulting/rvstore.git
+[submodule "examples/appengine/hello-world"]
+	path = examples/appengine/hello-world
+	url = git@github.com:GoogleCloudPlatform/appengine-try-java.git
