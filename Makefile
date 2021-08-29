@@ -19,6 +19,10 @@ vagrant-down:
 vagrant-halt:
 	vagrant halt
 
+vagrant-restart:
+	vagrant halt
+	vagrant up
+
 vagrant-package-and-push:
 	rm -f package.box
 	vagrant package
