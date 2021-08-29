@@ -19,6 +19,11 @@ vagrant-down:
 vagrant-halt:
 	vagrant halt
 
+vagrant-package-and-push:
+	rm -f package.box
+	vagrant package
+	curl --upload-file package.box https://transfer.sh/gcp-cli.box | tee -a project-resources/link.txt
+
 k8s-kind-create:
 	kind create cluster --config devops/config/kind/multi-node.yaml
 
