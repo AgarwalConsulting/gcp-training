@@ -7,7 +7,7 @@
 # you're doing.
 Vagrant.configure("2") do |config|
   config.vm.box = "gcp-cli.box"
-  config.vm.box_url = "https://transfer.sh/HsBM/gcp-cli.box"
+  config.vm.box_url = "https://transfer.sh/1wLpOqo/gcp-cli.box"
 
   ## Shell Provisioning for GCP class
   # config.vm.box = "ubuntu/focal64"

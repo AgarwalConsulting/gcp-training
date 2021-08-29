@@ -22,7 +22,11 @@ vagrant-halt:
 vagrant-package-and-push:
 	rm -f package.box
 	vagrant package
-	curl --upload-file package.box https://transfer.sh/gcp-cli.box | tee -a project-resources/link.txt
+	curl --upload-file package.box https://transfer.sh/gcp-cli.box >> project-resources/link.txt
+
+vagrant-box-refresh:
+	vagrant box remove gcp-cli.box
+	vagrant box add --name gcp-cli.box package.box
 
 k8s-kind-create:
 	kind create cluster --config devops/config/kind/multi-node.yaml
