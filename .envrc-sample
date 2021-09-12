@@ -1,4 +1,4 @@
 #!/usr/bin/env bash
 
-export JAVA_HOME=/Library/Java/JavaVirtualMachines/adoptopenjdk-8.jdk/Contents/Home
+export JAVA_HOME=/usr/local/Cellar/openjdk@11/11.0.12/libexec/openjdk.jdk/Contents/Home
 export GOOGLE_APPLICATION_CREDENTIALS="`pwd`/project-resources/service-account-file.json"

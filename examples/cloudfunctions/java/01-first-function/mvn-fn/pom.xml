@@ -196,7 +196,7 @@
         <artifactId>function-maven-plugin</artifactId>
         <version>0.9.7</version>
         <configuration>
-          <functionTarget>com.algogrit.app.HelloWorld</functionTarget>
+          <functionTarget>com.algogrit.app.HelloHttp</functionTarget>
         </configuration>
       </plugin>
     </plugins>
