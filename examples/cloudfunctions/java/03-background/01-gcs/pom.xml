@@ -4,8 +4,8 @@
                       http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
-  <groupId>com.algogrit.app</groupId>
-  <artifactId>first-function</artifactId>
+  <groupId>com.algogrit.functions</groupId>
+  <artifactId>gcs-function</artifactId>
   <version>1.0-SNAPSHOT</version>
   <packaging>jar</packaging>
 
@@ -222,7 +222,7 @@
         <artifactId>function-maven-plugin</artifactId>
         <version>0.9.7</version>
         <configuration>
-          <functionTarget>com.algogrit.app.HelloHttp</functionTarget>
+          <functionTarget>com.algogrit.functions.SimpleGCS</functionTarget>
         </configuration>
       </plugin>
     </plugins>
