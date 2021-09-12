@@ -25,18 +25,22 @@
  */
 package com.algogrit.app;
 
-import java.io.IOException;
-import java.io.PrintWriter;
+// import java.io.IOException;
+// import java.io.PrintWriter;
+// import java.io.InputStreamReader;
+import java.io.*;
 import java.util.logging.Logger;
 
-import com.google.cloud.functions.HttpFunction;
-import com.google.cloud.functions.HttpRequest;
-import com.google.cloud.functions.HttpResponse;
+// import com.google.cloud.functions.HttpFunction;
+// import com.google.cloud.functions.HttpRequest;
+// import com.google.cloud.functions.HttpResponse;
+import com.google.cloud.functions.*;
 
-import com.google.gson.Gson;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParseException;
+// import com.google.gson.Gson;
+// import com.google.gson.JsonElement;
+// import com.google.gson.JsonObject;
+// import com.google.gson.JsonParseException;
+import com.google.gson.*;
 
 public class HelloHttp implements HttpFunction {
   private static final Logger logger = Logger.getLogger(HelloHttp.class.getName());
@@ -52,10 +56,17 @@ public class HelloHttp implements HttpFunction {
 
     // Parse JSON request and check for "name" field
     try {
+      // var in = request.getInputStream();
+      // var reader = new InputStreamReader(in, "UTF-8");
+      // JsonElement requestParsed = gson.fromJson(reader, JsonElement.class);
+
       JsonElement requestParsed = gson.fromJson(request.getReader(), JsonElement.class);
+
+
       JsonObject requestJson = null;
 
       if (requestParsed != null && requestParsed.isJsonObject()) {
+        logger.info(requestParsed.toString());
         requestJson = requestParsed.getAsJsonObject();
       }
 

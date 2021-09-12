@@ -33,21 +33,21 @@ Edit the generated `pom.xml`, with the following dependencies (within the `<depe
 And the following build plugin (within the `<build><plugins>...</plugins></build>` block):
 
 ```xml
+<!--
+  Google Cloud Functions Framework Maven plugin
+
+  This plugin allows you to run Cloud Functions Java code
+  locally. Use the following terminal command to run a
+  given function locally:
+
+  mvn function:run -Drun.functionTarget=your.package.yourFunction
+-->
 <plugin>
-  <!--
-    Google Cloud Functions Framework Maven plugin
-
-    This plugin allows you to run Cloud Functions Java code
-    locally. Use the following terminal command to run a
-    given function locally:
-
-    mvn function:run -Drun.functionTarget=your.package.yourFunction
-  -->
   <groupId>com.google.cloud.functions</groupId>
   <artifactId>function-maven-plugin</artifactId>
   <version>0.9.7</version>
   <configuration>
-    <functionTarget>com.algogrit.app.HelloWorld</functionTarget>
+    <functionTarget>com.algogrit.app.HelloHttp</functionTarget>
   </configuration>
 </plugin>
 ```
