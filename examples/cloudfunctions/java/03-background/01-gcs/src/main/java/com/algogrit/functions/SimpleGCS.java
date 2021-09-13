@@ -25,46 +25,39 @@
  */
 package com.algogrit.functions;
 
+import java.util.logging.Logger;
+
 import com.algogrit.functions.SimpleGCS.GCSEvent;
 import com.google.cloud.functions.BackgroundFunction;
 import com.google.cloud.functions.Context;
-import java.util.logging.Logger;
+import com.google.cloud.storage.Blob;
+import com.google.cloud.storage.Storage;
+import com.google.cloud.storage.StorageOptions;
 
 public class SimpleGCS implements BackgroundFunction<GCSEvent> {
   private static final Logger logger = Logger.getLogger(SimpleGCS.class.getName());
-  // private static Storage storage = StorageOptions.getDefaultInstance().getService();
+  private static Storage storage = StorageOptions.getDefaultInstance().getService();
 
   @Override
-  public void accept(GCSEvent event, Context context) {
+  public void accept(GCSEvent event, Context context) throws Exception {
+    String BUCKET_NAME = System.getenv("BUCKET_NAME");
+
     logger.info("Processing file: " + event.name);
     // throw new UnsupportedOperationException("Not supported yet.");
 
+    // Content credits: https://www.baeldung.com/java-google-cloud-storage
+
     //// Read file from GCS Bucket
-    // String BUCKET_NAME = System.getenv("BUCKET_NAME");
-    // Blob blob = storage.get(BUCKET_NAME, event.name);
-    // try (ReadChannel reader = blob.reader()) {
-    //   ByteBuffer bytes = ByteBuffer.allocate(64 * 1024);
-    //   StringBuilder buffer = new StringBuilder();
-    //    int numCharsRead;
-    //   while ((numCharsRead = reader.read(bytes)) > 0) {
-    //    bytes.flip();
-    //    // Content credits: https://www.baeldung.com/java-convert-reader-to-string
-    //    // do something with bytes; currently reading into a buffer
-    //    buffer.append(bytes, 0, numCharsRead);
-    //    bytes.clear();
-    //   }
-    // String targetString = buffer.toString();
-    //  }
+    Blob blob = storage.get(BUCKET_NAME, event.name);
+
+    String targetString = new String(blob.getContent());
+    logger.info("File contents:" + targetString);
 
     //// Write file to GCS bucket
-    // Create a bucket - Optional
-    // String bucketName = "my_unique_bucket"; // Change this to something unique
-    // Bucket bucket = storage.create(BucketInfo.of(bucketName));
-
-    // // Upload a blob to the newly created bucket
-    // BlobId blobId = BlobId.of(bucketName, "my_blob_name");
-    // BlobInfo blobInfo = BlobInfo.newBuilder(blobId).setContentType("text/plain").build();
-    // Blob blob = storage.create(blobInfo, "a simple blob".getBytes(UTF_8));
+    // Bucket bucket = storage.create(BucketInfo.of(BUCKET_NAME));
+    // String value = "Hello, World!";
+    // byte[] bytes = value.getBytes(UTF_8);
+    // Blob blob = bucket.create("my-first-blob", bytes);
   }
 
   public static class GCSEvent {
