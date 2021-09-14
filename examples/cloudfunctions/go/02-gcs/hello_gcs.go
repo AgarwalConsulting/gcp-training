@@ -4,10 +4,12 @@ package helloworld
 import (
 	"context"
 	"fmt"
+	"io/ioutil"
 	"log"
 	"time"
 
 	"cloud.google.com/go/functions/metadata"
+	"cloud.google.com/go/storage"
 )
 
 // GCSEvent is the payload of a GCS event.
@@ -58,5 +60,30 @@ func HelloGCS(ctx context.Context, e GCSEvent) error {
 	log.Printf("Metageneration: %v\n", e.Metageneration)
 	log.Printf("Created: %v\n", e.TimeCreated)
 	log.Printf("Updated: %v\n", e.Updated)
+
+	client, err := storage.NewClient(ctx)
+	if err != nil {
+		// TODO: Handle error.
+		return fmt.Errorf("Unable to create a storage client: %v", err)
+	}
+
+	bkt := client.Bucket(e.Bucket)
+
+	obj := bkt.Object(e.Name)
+
+	rdr, err := obj.NewReader(ctx)
+
+	if err != nil {
+		return fmt.Errorf("Unable to create a reader: %v", err)
+	}
+
+	contentBytes, err := ioutil.ReadAll(rdr)
+
+	if err != nil {
+		return fmt.Errorf("Unable to read contents: %v", err)
+	}
+
+	log.Println("Contents:", string(contentBytes))
+
 	return nil
 }
