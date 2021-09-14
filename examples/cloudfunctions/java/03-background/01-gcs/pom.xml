@@ -239,7 +239,7 @@
         <artifactId>function-maven-plugin</artifactId>
         <version>0.9.7</version>
         <configuration>
-          <functionTarget>com.algogrit.functions.SimpleGCS</functionTarget>
+          <functionTarget>com.algogrit.functions.DemoGCS</functionTarget>
         </configuration>
       </plugin>
     </plugins>
