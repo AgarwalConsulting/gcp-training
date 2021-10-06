@@ -41,3 +41,19 @@ resource "google_project_iam_binding" "cm-cloud-cli" {
   for_each = toset(var.users_list)
   members  = ["user:${each.key}"]
 }
+
+resource "google_project_iam_binding" "cm-bq" {
+  project = var.project_id
+  role    = "roles/bigquery.admin"
+
+  for_each = toset(var.users_list)
+  members  = ["user:${each.key}"]
+}
+
+resource "google_project_iam_binding" "cm-pubsub" {
+  project = var.project_id
+  role    = "roles/pubsub.admin"
+
+  for_each = toset(var.users_list)
+  members  = ["user:${each.key}"]
+}
