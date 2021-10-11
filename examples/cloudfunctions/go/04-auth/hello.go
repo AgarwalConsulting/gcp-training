@@ -6,5 +6,5 @@ import (
 )
 
 func Hello(w http.ResponseWriter, req *http.Request) {
-	fmt.Fprintln(w, "Hello, from a simple function!")
+	fmt.Fprintln(w, "Hello, from a simple function - 2!")
 }

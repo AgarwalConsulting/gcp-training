@@ -3,12 +3,20 @@ package hello
 import (
 	"fmt"
 	"net/http"
+	"os"
 )
 
-const authUser = "ga"
-const authPassword = "securepassword"
-
 func BasicHello(w http.ResponseWriter, req *http.Request) {
+	authUser, ok := os.LookupEnv("BASIC_AUTH_USERNAME")
+	if !ok {
+		authUser = "ga"
+	}
+
+	authPassword, ok := os.LookupEnv("BASIC_AUTH_PASSWORD")
+	if !ok {
+		authPassword = "securepassword"
+	}
+
 	w.Header().Set("WWW-Authenticate", "Basic realm=Enter username & password for this site.")
 
 	ruser, rpassword, ok := req.BasicAuth()
