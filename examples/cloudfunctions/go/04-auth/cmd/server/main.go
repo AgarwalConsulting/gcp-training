@@ -12,7 +12,7 @@ import (
 func main() {
 	ctx, _ := context.WithCancel(context.Background())
 
-	err := funcframework.RegisterHTTPFunctionContext(ctx, "/jwt", hello.JWTHello)
+	err := funcframework.RegisterHTTPFunctionContext(ctx, "/invoker", hello.Invoker)
 
 	if err != nil {
 		log.Fatalln("Unable to register:", err)
