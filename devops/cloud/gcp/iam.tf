@@ -42,7 +42,7 @@ resource "google_project_iam_binding" "cm-cloud-cli" {
   members  = ["user:${each.key}"]
 }
 
-resource "google_project_iam_binding" "cm-bq" {
+resource "google_project_iam_binding" "cm-bigquery" {
   project = var.project_id
   role    = "roles/bigquery.admin"
 
@@ -53,6 +53,22 @@ resource "google_project_iam_binding" "cm-bq" {
 resource "google_project_iam_binding" "cm-pubsub" {
   project = var.project_id
   role    = "roles/pubsub.admin"
+
+  for_each = toset(var.users_list)
+  members  = ["user:${each.key}"]
+}
+
+resource "google_project_iam_binding" "cm-spanner" {
+  project = var.project_id
+  role    = "roles/spanner.admin"
+
+  for_each = toset(var.users_list)
+  members  = ["user:${each.key}"]
+}
+
+resource "google_project_iam_binding" "cm-cloudsql" {
+  project = var.project_id
+  role    = "roles/cloudsql.admin"
 
   for_each = toset(var.users_list)
   members  = ["user:${each.key}"]

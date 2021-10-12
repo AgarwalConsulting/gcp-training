@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+
+export SPANNER_INSTANCE=my-instance
+export SPANNER_DATABASE=example-db
