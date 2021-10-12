@@ -22,6 +22,7 @@ import (
 	"fmt"
 	"log"
 	"net/http"
+	"os"
 	"sync"
 
 	"cloud.google.com/go/spanner"
@@ -33,8 +34,10 @@ import (
 var client *spanner.Client
 var clientOnce sync.Once
 
+var projectID = os.Getenv("GOOGLE_CLOUD_PROJECT")
+
 // db is the name of the database to query.
-var db = "projects/my-project/instances/my-instance/databases/example-db"
+var db = "projects/" + projectID + "/instances/my-instance/databases/example-db"
 
 // HelloSpanner is an example of querying Spanner from a Cloud Function.
 func HelloSpanner(w http.ResponseWriter, r *http.Request) {
