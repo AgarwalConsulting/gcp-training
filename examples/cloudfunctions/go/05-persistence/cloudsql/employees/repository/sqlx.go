@@ -38,7 +38,7 @@ func (repo sqlxRepo) Save(newEmp entities.Employee) (*entities.Employee, error) 
 	newEmp.ID++
 
 	log.Println("Inserting new employee...")
-	_, err = repo.DB.NamedExec("INSERT INTO employees (id, name, department, project_id) VALUES (:id, :name, :department, :project_id)", &newEmp)
+	_, err = repo.DB.Exec("INSERT INTO employees (id, name, department, project_id) VALUES ($1, $2, $3, $4)", newEmp.ID, newEmp.Name, newEmp.Department, newEmp.ProjectID)
 
 	if err != nil {
 		return nil, err
