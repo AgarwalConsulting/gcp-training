@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+
+export SQL_INSTANCE_ID="emp-demo"
+
+export SQL_DB_HOST=""
+export SQL_PASSWORD="securepassword"
+
+export INSTANCE_CONNECTION_NAME=""
