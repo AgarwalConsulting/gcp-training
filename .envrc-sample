@@ -2,3 +2,6 @@
 
 export JAVA_HOME=/usr/local/Cellar/openjdk@11/11.0.12/libexec/openjdk.jdk/Contents/Home
 export GOOGLE_APPLICATION_CREDENTIALS="`pwd`/project-resources/service-account-file.json"
+
+export GOOGLE_CLOUD_PROJECT="project-id"
+export GOOGLE_CLOUD_REGION="region"
