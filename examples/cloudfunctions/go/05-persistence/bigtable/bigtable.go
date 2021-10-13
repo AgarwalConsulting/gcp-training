@@ -34,7 +34,8 @@ var clientOnce sync.Once
 
 // BigtableRead is an example of reading Bigtable from a Cloud Function.
 func BigtableRead(w http.ResponseWriter, r *http.Request) {
-	clientOnce.Do(func() {
+	// clientOnce.Do(func() {
+	if client == nil {
 		// Declare a separate err variable to avoid shadowing client.
 		var err error
 		client, err = bigtable.NewClient(context.Background(), r.Header.Get("projectID"), r.Header.Get("instanceID"))
@@ -43,7 +44,7 @@ func BigtableRead(w http.ResponseWriter, r *http.Request) {
 			log.Printf("bigtable.NewClient: %v", err)
 			return
 		}
-	})
+	}
 
 	tbl := client.Open(r.Header.Get("tableID"))
 	err := tbl.ReadRows(r.Context(), bigtable.PrefixRange("phone#"),
