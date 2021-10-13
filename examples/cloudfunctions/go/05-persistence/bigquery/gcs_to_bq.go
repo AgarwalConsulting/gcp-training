@@ -3,12 +3,12 @@ package bq_sample
 import (
 	"context"
 	"fmt"
-	"io/ioutil"
 	"log"
+	"os"
 	"time"
 
+	"cloud.google.com/go/bigquery"
 	"cloud.google.com/go/functions/metadata"
-	"cloud.google.com/go/storage"
 )
 
 // GCSEvent is the payload of a GCS event.
@@ -46,6 +46,10 @@ type GCSEvent struct {
 	ResourceState string `json:"resourceState"`
 }
 
+var ProjectID = os.Getenv("GOOGLE_CLOUD_PROJECT")
+var BQDataset = os.Getenv("BQ_DATASET")
+var BQTable = os.Getenv("BQ_TABLE")
+
 // HelloGCS consumes a GCS event.
 func HelloGCS(ctx context.Context, e GCSEvent) error {
 	meta, err := metadata.FromContext(ctx)
@@ -60,29 +64,29 @@ func HelloGCS(ctx context.Context, e GCSEvent) error {
 	log.Printf("Created: %v\n", e.TimeCreated)
 	log.Printf("Updated: %v\n", e.Updated)
 
-	client, err := storage.NewClient(ctx)
+	client, err := bigquery.NewClient(ctx, ProjectID)
 	if err != nil {
-		// TODO: Handle error.
-		return fmt.Errorf("Unable to create a storage client: %v", err)
+		log.Println("Unable to create bq client:", err)
+		log.Println("Client:", client)
+		return err
 	}
 
-	bkt := client.Bucket(e.Bucket)
+	gcsRef := bigquery.NewGCSReference(fmt.Sprintf("gs://%s/%s", e.Bucket, e.Name))
+	gcsRef.AllowJaggedRows = true
 
-	obj := bkt.Object(e.Name)
+	myDataset := client.Dataset(BQDataset)
 
-	rdr, err := obj.NewReader(ctx)
-
-	if err != nil {
-		return fmt.Errorf("Unable to create a reader: %v", err)
-	}
-
-	contentBytes, err := ioutil.ReadAll(rdr)
+	loader := myDataset.Table(BQTable).LoaderFrom(gcsRef)
+	loader.CreateDisposition = bigquery.CreateNever
+	job, err := loader.Run(ctx)
 
 	if err != nil {
-		return fmt.Errorf("Unable to read contents: %v", err)
+		log.Println("Unable to create job:", err)
+		return err
 	}
 
-	log.Println("Contents:", string(contentBytes))
+	log.Println("Job scheduled successfully!")
+	log.Println("Current job status:", job.LastStatus())
 
 	return nil
 }

@@ -1,7 +1,6 @@
 #!/usr/bin/env bash
 
-FILES_SOURCE=${GOOGLE_CLOUD_PROJECT}-files-source-$(date +%s)
-gsutil mb -c regional -l ${GOOGLE_CLOUD_REGION} gs://${FILES_SOURCE}
+gsutil mb -c regional -l ${GOOGLE_CLOUD_REGION} gs://${BUCKET_NAME}
 
-bq mk mydataset
-bq mk mydataset.mytable schema.json
+bq mk $BQ_DATASET
+bq mk $BQ_DATASET.$BQ_TABLE schema.json

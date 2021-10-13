@@ -1,5 +1,8 @@
 #!/usr/bin/env bash
 
+export GOOGLE_CLOUD_REGION=us-central1
 export GOOGLE_CLOUD_PROJECT=project-id
 export BQ_DATASET=mydataset
 export BQ_TABLE=mytable
+
+export BUCKET_NAME=${GOOGLE_CLOUD_PROJECT}-bq-source
