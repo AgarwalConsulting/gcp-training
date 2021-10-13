@@ -55,21 +55,21 @@ func NewSQLX(connectionString string) UserRepository {
 		log.Fatalln("Unable to connect:", err)
 	}
 
-	_, err = db.Exec("CREATE TABLE IF NOT EXISTS employees (id int primary key, name text, department text, project_id int)")
-
-	if err != nil {
-		log.Fatalln(err)
-	}
-
 	// [START cloud_sql_postgres_databasesql_limit]
 	// Set maximum number of open connections to the database.
-	db.SetMaxOpenConns(1)
+	db.SetMaxOpenConns(2)
 	// [END cloud_sql_postgres_databasesql_limit]
 
 	// [START cloud_sql_postgres_databasesql_lifetime]
 	// Set Maximum time (in seconds) that a connection can remain open.
 	db.SetConnMaxLifetime(900)
 	// [END cloud_sql_postgres_databasesql_lifetime]
+
+	_, err = db.Exec("CREATE TABLE IF NOT EXISTS employees (id int primary key, name text, department text, project_id int)")
+
+	if err != nil {
+		log.Fatalln(err)
+	}
 
 	return &sqlxRepo{db}
 }

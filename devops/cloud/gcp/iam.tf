@@ -50,6 +50,14 @@ resource "google_project_iam_binding" "cm-bigquery" {
   members  = ["user:${each.key}"]
 }
 
+resource "google_project_iam_binding" "cm-bigtable" {
+  project = var.project_id
+  role    = "roles/bigtable.admin"
+
+  for_each = toset(var.users_list)
+  members  = ["user:${each.key}"]
+}
+
 resource "google_project_iam_binding" "cm-pubsub" {
   project = var.project_id
   role    = "roles/pubsub.admin"
