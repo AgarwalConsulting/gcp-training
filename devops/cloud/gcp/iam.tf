@@ -13,12 +13,20 @@ resource "google_project_iam_member" "cm-gcs" {
   member  = "user:${each.key}"
 }
 
-resource "google_project_iam_member" "cm-pse" {
+resource "google_project_iam_binding" "cm-pubsub" {
   project = var.project_id
-  role    = "roles/pubsub.editor"
+  role    = "roles/pubsub.admin"
+
   for_each = toset(var.users_list)
-  member  = "user:${each.key}"
+  members  = ["user:${each.key}"]
 }
+
+# resource "google_project_iam_member" "cm-pse" {
+#   project = var.project_id
+#   role    = "roles/pubsub.editor"
+#   for_each = toset(var.users_list)
+#   member  = "user:${each.key}"
+# }
 
 resource "google_project_iam_member" "cm-logva" {
   project = var.project_id
@@ -42,42 +50,34 @@ resource "google_project_iam_binding" "cm-cloud-cli" {
   members  = ["user:${each.key}"]
 }
 
-resource "google_project_iam_binding" "cm-bigquery" {
-  project = var.project_id
-  role    = "roles/bigquery.admin"
+# resource "google_project_iam_binding" "cm-bigquery" {
+#   project = var.project_id
+#   role    = "roles/bigquery.admin"
 
-  for_each = toset(var.users_list)
-  members  = ["user:${each.key}"]
-}
+#   for_each = toset(var.users_list)
+#   members  = ["user:${each.key}"]
+# }
 
-resource "google_project_iam_binding" "cm-bigtable" {
-  project = var.project_id
-  role    = "roles/bigtable.admin"
+# resource "google_project_iam_binding" "cm-bigtable" {
+#   project = var.project_id
+#   role    = "roles/bigtable.admin"
 
-  for_each = toset(var.users_list)
-  members  = ["user:${each.key}"]
-}
+#   for_each = toset(var.users_list)
+#   members  = ["user:${each.key}"]
+# }
 
-resource "google_project_iam_binding" "cm-pubsub" {
-  project = var.project_id
-  role    = "roles/pubsub.admin"
+# resource "google_project_iam_binding" "cm-spanner" {
+#   project = var.project_id
+#   role    = "roles/spanner.admin"
 
-  for_each = toset(var.users_list)
-  members  = ["user:${each.key}"]
-}
+#   for_each = toset(var.users_list)
+#   members  = ["user:${each.key}"]
+# }
 
-resource "google_project_iam_binding" "cm-spanner" {
-  project = var.project_id
-  role    = "roles/spanner.admin"
+# resource "google_project_iam_binding" "cm-cloudsql" {
+#   project = var.project_id
+#   role    = "roles/cloudsql.admin"
 
-  for_each = toset(var.users_list)
-  members  = ["user:${each.key}"]
-}
-
-resource "google_project_iam_binding" "cm-cloudsql" {
-  project = var.project_id
-  role    = "roles/cloudsql.admin"
-
-  for_each = toset(var.users_list)
-  members  = ["user:${each.key}"]
-}
+#   for_each = toset(var.users_list)
+#   members  = ["user:${each.key}"]
+# }
