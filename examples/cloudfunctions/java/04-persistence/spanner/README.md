@@ -22,13 +22,11 @@ Insert data:
 ```sql
 INSERT INTO
   Singers (SingerId,
-    BirthDate,
     FirstName,
     LastName,
     SingerInfo)
 VALUES
   (1, -- type: INT64
-    NULL, -- type: DATE
     'Marc', -- type: STRING(1024)
     'Richards', -- type: STRING(1024)
     NULL -- type: BYTES(MAX)

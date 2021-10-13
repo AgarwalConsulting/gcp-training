@@ -69,8 +69,7 @@ public class HelloSpanner implements HttpFunction {
     var writer = new PrintWriter(response.getWriter());
     try {
       DatabaseClient client = getClient();
-      try (ResultSet rs =
-          client
+      try (ResultSet rs = client
               .singleUse()
               .executeQuery(Statement.of("SELECT SingerId, AlbumId, AlbumTitle FROM Albums"))) {
         writer.printf("Albums:%n");
