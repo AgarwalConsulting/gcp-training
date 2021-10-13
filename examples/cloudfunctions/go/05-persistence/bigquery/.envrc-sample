@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+
+export GOOGLE_CLOUD_PROJECT=project-id
+export BQ_DATASET=mydataset
+export BQ_TABLE=mytable
