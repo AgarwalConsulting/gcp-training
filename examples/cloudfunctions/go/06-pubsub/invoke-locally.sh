@@ -1,5 +1,9 @@
 #!/usr/bin/env bash
 
+## data field is base64 encode.
+## To encode: echo -n World | base64 -i -
+## To decode: echo d29ybGQ= | base64 -i - -D
+
 curl localhost:8000 \
   -X POST \
   -H "Content-Type: application/json" \
