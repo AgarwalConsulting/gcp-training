@@ -11,13 +11,6 @@ resource "google_project_iam_binding" "cm-cloud-cli" {
 
 ## Member roles
 
-resource "google_project_iam_member" "cm-cf" {
-  project = var.project_id
-  role    = "roles/cloudfunctions.admin"
-  for_each = toset(var.users_list)
-  member  = "user:${each.key}"
-}
-
 resource "google_project_iam_member" "cm-gcs" {
   project = var.project_id
   role    = "roles/storage.admin"
@@ -31,6 +24,13 @@ resource "google_project_iam_member" "cm-pubsub" {
   for_each = toset(var.users_list)
   member  = "user:${each.key}"
 }
+
+# resource "google_project_iam_member" "cm-pse" {
+#   project = var.project_id
+#   role    = "roles/pubsub.editor"
+#   for_each = toset(var.users_list)
+#   member  = "user:${each.key}"
+# }
 
 resource "google_project_iam_member" "cm-logva" {
   project = var.project_id
@@ -46,20 +46,21 @@ resource "google_project_iam_member" "cm-monitorv" {
   member  = "user:${each.key}"
 }
 
-# resource "google_project_iam_member" "cm-pse" {
-#   project = var.project_id
-#   role    = "roles/pubsub.editor"
-#   for_each = toset(var.users_list)
-#   member  = "user:${each.key}"
-# }
+resource "google_project_iam_member" "cm-bigquery" {
+  project = var.project_id
+  role    = "roles/bigquery.admin"
 
-# resource "google_project_iam_member" "cm-bigquery" {
-#   project = var.project_id
-#   role    = "roles/bigquery.admin"
+  for_each = toset(var.users_list)
+  member  = "user:${each.key}"
+}
 
-#   for_each = toset(var.users_list)
-#   member  = "user:${each.key}"
-# }
+resource "google_project_iam_member" "cm-dataproc" {
+  project = var.project_id
+  role    = "roles/dataproc.editor"
+
+  for_each = toset(var.users_list)
+  member  = "user:${each.key}"
+}
 
 # resource "google_project_iam_member" "cm-bigtable" {
 #   project = var.project_id
