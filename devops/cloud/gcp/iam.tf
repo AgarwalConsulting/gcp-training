@@ -62,26 +62,26 @@ resource "google_project_iam_member" "cm-dataproc" {
   member  = "user:${each.key}"
 }
 
-# resource "google_project_iam_member" "cm-bigtable" {
-#   project = var.project_id
-#   role    = "roles/bigtable.admin"
+resource "google_project_iam_member" "cm-bigtable" {
+  project = var.project_id
+  role    = "roles/bigtable.admin"
 
-#   for_each = toset(var.users_list)
-#   member  = "user:${each.key}"
-# }
+  for_each = toset(var.users_list)
+  member  = "user:${each.key}"
+}
 
-# resource "google_project_iam_member" "cm-spanner" {
-#   project = var.project_id
-#   role    = "roles/spanner.admin"
+resource "google_project_iam_member" "cm-spanner" {
+  project = var.project_id
+  role    = "roles/spanner.admin"
 
-#   for_each = toset(var.users_list)
-#   member  = "user:${each.key}"
-# }
+  for_each = toset(var.users_list)
+  member  = "user:${each.key}"
+}
 
-# resource "google_project_iam_member" "cm-cloudsql" {
-#   project = var.project_id
-#   role    = "roles/cloudsql.admin"
+resource "google_project_iam_member" "cm-cloudsql" {
+  project = var.project_id
+  role    = "roles/cloudsql.admin"
 
-#   for_each = toset(var.users_list)
-#   member  = "user:${each.key}"
-# }
+  for_each = toset(var.users_list)
+  member  = "user:${each.key}"
+}
