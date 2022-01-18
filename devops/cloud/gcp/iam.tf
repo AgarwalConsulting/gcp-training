@@ -62,6 +62,14 @@ resource "google_project_iam_member" "cm-dataproc" {
   member  = "user:${each.key}"
 }
 
+resource "google_project_iam_member" "cm-compute-engine" {
+  project = var.project_id
+  role    = "roles/compute.admin"
+
+  for_each = toset(var.users_list)
+  member  = "user:${each.key}"
+}
+
 # resource "google_project_iam_member" "cm-bigtable" {
 #   project = var.project_id
 #   role    = "roles/bigtable.admin"
