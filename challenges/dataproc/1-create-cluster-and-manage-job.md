@@ -15,3 +15,9 @@
   `gcloud dataproc jobs submit ...`
 
 - *Step 5*: (Optional) You can also run your job directly by *ssh*ing into the master node
+
+- *Step 6*: Apply & manage labels on your jobs/cluster
+
+- *Step 7*: Delete the cluster
+
+  `gcloud dataproc clusters delete ...`
