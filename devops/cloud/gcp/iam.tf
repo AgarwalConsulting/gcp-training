@@ -11,6 +11,13 @@ resource "google_project_iam_binding" "cm-cloud-cli" {
 
 ## Member roles
 
+resource "google_project_iam_member" "cm-sau" {
+  project = var.project_id
+  role    = "roles/iam.serviceAccountUser"
+  for_each = toset(var.users_list)
+  member  = "user:${each.key}"
+}
+
 resource "google_project_iam_member" "cm-gcs" {
   project = var.project_id
   role    = "roles/storage.admin"

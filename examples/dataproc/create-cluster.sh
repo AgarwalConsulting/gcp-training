@@ -11,8 +11,13 @@ gcloud dataproc clusters create \
   --optional-components JUPYTER \
   --project $GOOGLE_CLOUD_PROJECT \
   --enable-component-gateway \
-  --max-age 21600s \
+  --max-idle 1800s \
   demo-cluster
+
+## Costs
+  # - Dataproc
+  # - Compute Engine Instance (3 * n2-standard-2 (2 vCPU + 8 GiB RAM))
+  # - Persistent Disk [HDD/SDD] (3 * 500 GiB)
 
   # --enable-component-gateway
   # --num-masters 3 \

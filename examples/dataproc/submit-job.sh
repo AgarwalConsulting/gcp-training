@@ -5,3 +5,5 @@ gcloud dataproc jobs submit spark \
   --cluster demo-cluster \
   --class org.apache.spark.examples.SparkPi \
   --jars file:///usr/lib/spark/examples/jars/spark-examples.jar -- 1000
+
+  # --async \
